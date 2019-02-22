@@ -4,13 +4,22 @@
              xmlns:local="clr-namespace:ConsultaCepRest"
              x:Class="ConsultaCepRest.MainPage">
 
-    <StackLayout BackgroundColor="#FFBF00" Padding="30" Spacing="30">
-        <Image Source="LogoCorreios.png" />
-        <Entry x:Name="txtCep" Placeholder="Digite o Cep" PlaceholderColor="#FFBF00" BackgroundColor="#FFFFFF" />
-        <Button x:Name="btnConsultar" Text="BUSCAR CEP" TextColor="#FFFFFF" BackgroundColor="#00416B" Clicked="btnConsultar_Clicked" />
-        <Label x:Name="lblResultado"
+    <ScrollView>
+        <StackLayout BackgroundColor="#FFBF00" Padding="30" Spacing="30">
+            <Image Source="LogoCorreios.png" />
+            <Entry x:Name="txtCep" Placeholder="Digite o Cep" PlaceholderColor="#FFBF00" BackgroundColor="#FFFFFF" />
+            <Button x:Name="btnConsultar" Text="BUSCAR CEP" TextColor="#FFFFFF" BackgroundColor="#00416B" Clicked="btnConsultar_ClickedAsync" />
+
+            <ActivityIndicator x:Name="actIndLoading"
+                               IsRunning="False"
+                               IsVisible="False"
+                               Color="Blue"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+
+            <Label x:Name="lblResultado"
            HorizontalOptions="Center"
            VerticalOptions="Center" />
-    </StackLayout>
-
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

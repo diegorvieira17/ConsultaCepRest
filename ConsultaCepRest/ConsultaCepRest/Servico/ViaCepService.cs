@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using ConsultaCepRest.Servico.Modelo;
 using Newtonsoft.Json;
 
@@ -11,14 +12,14 @@ namespace ConsultaCepRest.Servico
     {
         private static string UrlBase = "https://viacep.com.br/ws/{0}/json/";
 
-        public static Endereco BuscaEndereco(string cep)
+        public static async Task<Endereco> BuscaEndereco(string cep)
         {
             string url = string.Format(UrlBase, cep);
 
             WebClient ws = new WebClient();
             string retorno = ws.DownloadString(url);
 
-            Endereco end =  JsonConvert.DeserializeObject<Endereco>(retorno);
+            Endereco end = JsonConvert.DeserializeObject<Endereco>(retorno);
 
             if (end.Cep == null)
             {

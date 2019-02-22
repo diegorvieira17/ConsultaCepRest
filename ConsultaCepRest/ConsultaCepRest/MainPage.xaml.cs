@@ -14,17 +14,25 @@ namespace ConsultaCepRest
 		public MainPage()
 		{
 			InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
 		}
 
-        private void btnConsultar_Clicked(object sender, EventArgs e)
+        private async void btnConsultar_ClickedAsync(object sender, EventArgs e)
         {
+            actIndLoading.IsRunning = true;
+            actIndLoading.IsVisible = true;
+
             string cep = txtCep.Text.Trim();
 
             if (isValidCEP(cep))
             {
                 try
                 {
-                    Endereco end = ViaCepService.BuscaEndereco(cep);
+                    //Endereco end = await ViaCepService.BuscaEndereco(cep);
+                    Endereco end = await Task.Run(async () => 
+                    {
+                        return await ViaCepService.BuscaEndereco(cep);
+                    });
 
                     if (end != null)
                     {
@@ -33,12 +41,17 @@ namespace ConsultaCepRest
                     }
                     else
                     {
-                        DisplayAlert("ERRO", $"Endereço não encontrado para o CEP informado: {cep}","OK");
+                        await DisplayAlert("ERRO", $"Endereço não encontrado para o CEP informado: {cep}","OK");
                     }
+
+                    actIndLoading.IsRunning = false;
+                    actIndLoading.IsVisible = false;
                 }
                 catch (Exception exception)
                 {
-                    DisplayAlert("ERRO CRÍTICO",exception.Message,"OK");
+                    await DisplayAlert("ERRO CRÍTICO",exception.Message,"OK");
+                    actIndLoading.IsRunning = false;
+                    actIndLoading.IsVisible = false;
                     throw;
                 }
             }
